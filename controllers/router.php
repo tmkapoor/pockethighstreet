@@ -1,6 +1,33 @@
 <?php
-	//fetch the passed request
 
+	/**Intercept default PHP 'failed to load class' method
+	override to look for the class in out "models" folder**/
+	function __autoload($className)
+	{
+	    //Get where PHP is looking
+	    list($filename , $suffix) = explode('_' , $className);
+	    //Rewrite it to our own models folder
+	    $file = MODELS.DS.strtolower($filename).'.php';
+
+	    //fetch file
+	    if (file_exists($file))
+	    {
+	        //get file
+	        include_once($file);        
+	    }
+	    else
+	    {
+	        //file does not exist!
+	        die("File '$filename' containing class '$className' not found.");    
+	    }
+	}
+ 
+	function superStripSlashes($value) {
+	    $value = is_array($value) ? array_map('superStripSlashes', $value) : stripslashes($value);
+	    return $value;
+	}
+
+	//Fetching url elements
 	define('URLSEP', '/');
 	$urlVars = array();
 	$getVars = array();
@@ -11,7 +38,7 @@
 	$request = substr($request, 4);
 	$urlVars = explode(URLSEP, $request);
 
-	//the page is the first element
+	//The page will always be the first lement inthe url after the website root
 	if($urlVars[0] == "")
 		$page = "index";
 	else
@@ -23,7 +50,6 @@
 	$joint = strpos($uri, '?');
 	if($joint){
 		$getString = substr($uri, $joint+1);
-		print($getString);
 		$getParsed = explode('&' , $getString);
 
 		//the rest of the array are get statements, parse them out.
@@ -32,10 +58,10 @@
 		    $getVars[$variable] = $value;
 		}
 	}
-	//compute the path to the file
+	//Define path of controller
 	$target = CONTROLLERS.DS.$page.'.php';
 
-	//get target
+	//Get target
 	if (file_exists($target))
 	{
 	    include_once($target);
@@ -60,8 +86,7 @@
 	    die("$target does not exist!");
 	}
 
-	//once we have the controller instantiated, execute the default function
-	//pass any GET varaibles to the main method
+	
 	if(isset($urlVars[1]) && $urlVars[1] != ""){
 		$controller->$urlVars[1]($urlVars, $getVars);
 	}
