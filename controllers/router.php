@@ -82,14 +82,22 @@
 	}
 	else
 	{
-	    //can't find the file in 'controllers'! 
-	    die("$target does not exist!");
+	    //No such controller exists
+	    if(file_exists("wizard.php")){
+	    	header("Location: wizard.php?failed=$page");
+	    }
+	    else{
+	    	die("$target does not exist!");
+	    }
 	}
 
 	
 	if(isset($urlVars[1]) && $urlVars[1] != ""){
 		$controller->$urlVars[1]($urlVars, $getVars);
 	}
-	$controller->main($urlVars, $getVars);
+	else{
+		$controller->main($urlVars, $getVars);
+	}
+	
 
 ?>
