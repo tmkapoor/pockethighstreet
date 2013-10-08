@@ -18,10 +18,12 @@
 	    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 	</head>
 	<body>
-		<div id="content">
-			<?php
-				require_once(CONTROLLERS.DS."router.php");
-			?>
+		<div id="content" class="row-fluid">
+			<div class="offset1 span10">
+				<?php
+					require_once(CONTROLLERS.DS."router.php");
+				?>
+			</div>
 		</div>
 	</body>
 </html>
