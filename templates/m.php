@@ -4,18 +4,13 @@
 
 	class __PAGE_NAME_REPLACEMENT___Model
 	{
-		private $dbConn = false;
+		private $db;
 	    public function __construct()
 	    {
-	    	require_once('libs/database.php');
-	        //UNCOMMENT IF REQUIRED: This function will connect to the database whose details you provided in
-	        //the config/database.php file, if not go configure it now.
-	        //$dbConn = connectToDB();
+	        $this->db = new snapDB_Driver;
 	    }
 
-
-	    //Temporary code, remove
-	    private $articles = array
+	    private $data = array
 	    (
 	        'first' => array
 	        (
@@ -36,8 +31,17 @@
 	        )
 	    );
 
-	    //UNCOMMENT IF REQUIRED
-	    //private $tableName = "some_table";
+        public function getFromDB($args)
+	    {       
+	        $query = "SELECT * FROM TABLE_NAME WHERE CONDITION";
+	        $this->db->connect();
+	        $this->db->prepQuery($query);
+	        $this->db->execQuery();
+	    
+	        $queryResult = $this->db->fetchNextResults('array');
+	    
+	        return $queryResult;
+	    }
 	}
 
 ?>

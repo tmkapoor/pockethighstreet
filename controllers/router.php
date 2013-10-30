@@ -2,12 +2,41 @@
 
 	/**Intercept default PHP 'failed to load class' method
 	override to look for the class in out "models" folder**/
+
+	function setPageTitle($title){
+		$pageContents = ob_get_contents();
+		if($pageContents){
+			ob_end_clean ();
+			echo str_replace('<!--TITLE-->', $title." | ".APPNAME, $pageContents);
+		}
+	}
+
 	function __autoload($className)
 	{
 	    //Get where PHP is looking
 	    list($filename , $suffix) = explode('_' , $className);
-	    //Rewrite it to our own models folder
-	    $file = MODELS.DS.strtolower($filename).'.php';
+
+		//select the folder where class should be located based on suffix
+	    switch (strtolower($suffix))
+	    {    
+	        case 'model':
+	            $folder = MODELS;
+	     		break;
+	    
+	        case 'library':
+	            $folder = LIBS;
+	        	break;
+	    
+	        case 'driver':
+	            $folder = DRIVERS;
+	        	break;
+
+	        default:
+	        	die("No such class found. $filename was not found in the models, libraries or drivers.");
+	    }
+
+	    //compose file name
+	    $file = $folder.DS.strtolower($filename).'.php';
 
 	    //fetch file
 	    if (file_exists($file))
@@ -31,10 +60,12 @@
 	define('URLSEP', '/');
 	$urlVars = array();
 	$getVars = array();
+	$page = "";
 
 	$completeURL = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 	$isHTTPS = ($_SERVER['REQUEST_SCHEME'] == "https")?true:false;
 	$request = $_SERVER['QUERY_STRING'];
+	$request = rtrim($request, "/");
 	$request = substr($request, 4);
 	$urlVars = explode(URLSEP, $request);
 
@@ -44,9 +75,13 @@
 	else
 		$page = $urlVars[0];
 
-	/** TODO: remove last empty urlVars element created when tere is a trailing '/' **/
+
+	//$pageContents = ob_get_contents();
+	//ob_end_clean ();
+	//echo str_replace('<!--TITLE-->', ucfirst($page)." | ".APPNAME, $pageContents);
 
 	$uri = $_SERVER['REQUEST_URI'];
+
 	$joint = strpos($uri, '?');
 	if($joint){
 		$getString = substr($uri, $joint+1);
@@ -55,7 +90,7 @@
 		//the rest of the array are get statements, parse them out.
 		foreach ($getParsed as $argument){
 		    list($variable , $value) = explode('=' , $argument);
-		    $getVars[$variable] = $value;
+		    $getVars[$variable] = urldecode($value);
 		}
 	}
 	//Define path of controller
@@ -76,8 +111,7 @@
 	    }
 	    else
 	    {
-	        //did we name our class correctly?
-	        die('class does not exist!');
+	        die('ERROR: Class does not exist!');
 	    }
 	}
 	else
@@ -91,13 +125,12 @@
 	    }
 	}
 
-	
-	if(isset($urlVars[1]) && $urlVars[1] != ""){
-		$controller->$urlVars[1]($urlVars, $getVars);
-	}
-	else{
-		$controller->main($urlVars, $getVars);
+	for($i=1 ; isset($urlVars[$i]) ; $i++){
+		if($urlVars[$i] != "" && function_exists($urlVars[$i])){
+			$controller->$urlVars[$i]($urlVars, $getVars);
+		}
 	}
 	
-
+	$controller->main($urlVars, $getVars);
+	setPageTitle(ucfirst($page)." | ".APPNAME);
 ?>

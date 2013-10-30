@@ -18,6 +18,13 @@
             //This is code to show how you can access and pass variable
             $view->passVars('urlVars', $urlVars);
             $view->passVars('getVars', $getVars);
+
+            if(isset($getVars['author'])){
+                $article = $model->get_article($getVars['author']);
+                $view->passVars('article', $article);
+            }
+            
+
         }
 
         /** This is a sample function toshow how to make a second function in th model

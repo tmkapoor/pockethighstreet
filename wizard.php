@@ -45,11 +45,11 @@
 		}
 
 		if(file_exists($pathModel)){
-			die("A controller already exists at $pathModel, please resolve this by either manually deleting the controller or using a new page name.");
+			die("A model already exists at $pathModel, please resolve this by either manually deleting the controller or using a new page name.");
 		}
 
 		if(file_exists($pathView)){
-			die("A controller already exists at $pathView, please resolve this by either manually deleting the controller or using a new page name.");
+			die("A view already exists at $pathView, please resolve this by either manually deleting the controller or using a new page name.");
 		}
 
 		$name = strtolower($pName);

@@ -1,0 +1,39 @@
+/* HTML element based styling */
+body {
+	background-color: #272822;
+	background-image: url("../../img/body_bg3.png");
+	background-repeat:repeat-y;
+}
+
+*{
+	color: #bfbfbf;
+}
+
+
+/* Class based styling */
+.border-right{
+	border-right: solid 1px gray;
+}
+
+.border-left{
+	border-left: solid 1px gray;
+}
+
+.margin-bottom{
+	margin-bottom: 1em;
+}
+
+.text-centered{
+	text-align: center;
+}
+
+.small-heading{
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.full-width{
+	width: 100%;
+}
+
+/* ID based styling*/
