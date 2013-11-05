@@ -15,6 +15,8 @@
         {
             $model = new __PAGE_NAME_REPLACEMENT___Model;
             $view = new View_Model($this->template);
+			//Setting page title
+			setPageTitle(ucfirst("page title"));
             //This is code to show how you can access and pass variable
             $view->passVars('urlVars', $urlVars);
             $view->passVars('getVars', $getVars);
