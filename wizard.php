@@ -32,7 +32,7 @@
 	require_once('config/webroots.php');
 	if(isset($_POST['pName']) && trim($_POST['pName']) != "") {
 
-		$pName = $_POST['pName'];
+		$pName = strtolower($_POST['pName']);
 		$pName = str_replace(".php", "", $pName);
 		$pName = str_replace(".html", "", $pName);
 
@@ -57,29 +57,35 @@
 		$controller = file_get_contents("templates/c.php");
 		$controller = str_replace("__PAGE_NAME_REPLACEMENT__", $name, $controller);
 		if(file_put_contents($pathController , $controller)){
+			chmod($pathController, 0777);
 			print("<h5>Sucessfully created controller(".$pathController.").</h5>");
 		}
 		else{
-			die("Failed to create controller.");
+			die("Failed to create controller. Rolling back changes.");
 		}
 
 
 		$model = file_get_contents("templates/m.php");
 		$model = str_replace("__PAGE_NAME_REPLACEMENT__", $name, $model);
 		if(file_put_contents($pathModel , $model)){
+			chmod($pathModel, 0777);
 			print("<h5>Sucessfully created model(".$pathModel.").</h5>");
 		}
 		else{
-			die("Failed to create model.");
+			unlink($pathController);
+			die("Failed to create model. Rolling back changes.");
 		}
 
 		$view = file_get_contents("templates/v.php");
 		$view = str_replace("__PAGE_NAME_REPLACEMENT__", $name, $view);
 		if(file_put_contents($pathView , $view)){
+			chmod($pathView, 0777);
 			print("<h5>Sucessfully created view(".$pathView.").</h5>");
 		}
 		else{
-			die("Failed to create view.");
+			unlink($pathController);
+			unlink($pathModel);
+			die("Failed to create view. Rolling back changes.");
 		}
 		$newURL = $_SERVER['SCRIPT_NAME'];
 		$newURL = str_replace("wizard.php", $pName, $newURL);
