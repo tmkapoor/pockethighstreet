@@ -2,7 +2,7 @@
 	/** All your php backend logic + any databse operations should be done here,
 	they will be available to your views in variable names **/
 
-	class __PAGE_NAME_REPLACEMENT___Model
+	class Index_Model
 	{
 		private $db;
 	    public function __construct()
