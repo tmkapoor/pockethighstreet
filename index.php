@@ -1,5 +1,7 @@
 <?php
 	require_once('config/webroots.php');
+	//Start buffering page content, used for title replacement.
+	ob_start();
 ?>
 
 <!DOCTYPE html>
