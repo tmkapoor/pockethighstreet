@@ -1,6 +1,8 @@
 <?php
-	$dbName = "something";
-	$dbHost = "";
-	$dbUserName = "";
-	$dbPassword = "";
+	$dbName = "database_name";
+	$dbHost = "hostname";
+	$dbUserName = "username";
+	$dbPassword = "password";
+	$dbPort = NULL;
+	$dbSocket = NULL;
 ?>

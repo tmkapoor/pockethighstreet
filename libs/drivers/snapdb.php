@@ -3,19 +3,28 @@
 class snapDB_Driver extends Database_Library
 {
 
-	private $host = 'localhost';
-	private $user = 'gunny';
-	private $password = 'gunny';
-	private $database = 'tkapoor';
-	private $port = NULL;
-	private $socket = NULL;	
-
+	private $host;
+	private $user;
+	private $password;
+	private $database;
+	private $port;
+	private $socket;
 
 	/*Connection, query and resultsvariables*/
 	private $connection;
 	private $query;
 	private $result;
 	
+	function __construct() {
+		require_once('config/database.php');
+		$this->host = $dbHost;
+		$this->user = $dbUserName;
+		$this->password = $dbPassword;
+		$this->database = $dbName;
+		$this->port = $dbPort;
+		$this->socket = $dbSocket;
+   }
+
 	/**
 	 * Create new connection to database
 	 */ 
