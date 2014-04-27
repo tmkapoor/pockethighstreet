@@ -7,8 +7,26 @@
 		private $db;
 	    public function __construct()
 	    {
-	        $this->db = new snapDB_Driver;
+	    	/*If you wish to enable the databse driver
+	        $this->db = new snapDB_Driver;*/
 	    }
+
+	    /*How to use the database driver
+		UNNCOMMENT IF YOU WISH TO USE
+
+	    public function getFromDB($args)
+	    {       
+	        $query = "SELECT * FROM TABLE_NAME WHERE CONDITION";
+	        $this->db->connect();
+	        $this->db->prepQuery($query);
+	        $this->db->execQuery();
+	    
+	        $queryResult = $this->db->fetchNextResults('array');
+	    
+	        return $queryResult;
+	    }*/
+
+	    /*Sample data and how to pass to controller
 
 	    private $data = array
 	    (
@@ -31,17 +49,16 @@
 	        )
 	    );
 
-        public function getFromDB($args)
-	    {       
-	        $query = "SELECT * FROM TABLE_NAME WHERE CONDITION";
-	        $this->db->connect();
-	        $this->db->prepQuery($query);
-	        $this->db->execQuery();
-	    
-	        $queryResult = $this->db->fetchNextResults('array');
-	    
-	        return $queryResult;
-	    }
+		function giveData($key){
+			if(isset($data[$key])){
+				return $data[$key];
+			}
+			else{
+				return false;
+			}
+		}
+
+	    */
 	}
 
 ?>

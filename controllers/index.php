@@ -16,21 +16,17 @@
             $model = new Index_Model;
             $view = new View_Model($this->template);
 			//Setting page title
-			setPageTitle(ucfirst("page title"));
-            //This is code to show how you can access and pass variable
+			setPageTitle(ucfirst('Index'));
+
+            //This is code to show how you can access and pass variables to the view
             $view->passVars('urlVars', $urlVars);
-            $view->passVars('getVars', $getVars);
-
-            if(isset($getVars['author'])){
-                $article = $model->get_article($getVars['author']);
-                $view->passVars('article', $article);
-            }
-            
-
+            $view->passVars('getVars', $getVars);    
         }
 
         /** This is a sample function toshow how to make a second function in th model
             use URL http://mydomain.com/Index/other to execute tis function instead of the main function **/
+        
+        /*  UNCOMMENT IF YOU WANT TO USE THIS FUNCTION
         public function other(array $urlVars, array $getVars){
             $model = new Index_Model;
             $view = new View_Model($this->template);
@@ -39,6 +35,7 @@
             $view->passVars('urlVars', $urlVars);
             $view->passVars('getVars', $getVars);
         }
+        */
     }
 
 ?>
