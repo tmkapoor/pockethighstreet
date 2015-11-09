@@ -1,8 +1,8 @@
 <?php
 	//yoursite.com is your webserver EXCLUDING 'http://' and 'www'
-	define('SITE_ROOT' , 'localhost/snapMVC');
+	define('SITE_ROOT' , 'phs');
 	//Your app name
-	define('APPNAME', "snapMVC");
+	define('APPNAME', "PocketHighStreet");
 
 
 	/**DO NOT EDIT**/
